@@ -1,0 +1,67 @@
+
+
+Sub ResolveNamme()
+ 
+ Dim myNamespace As Outlook.NameSpace
+ 
+ Dim myRecipient As Outlook.Recipient
+ 
+ Dim CalendarFolder As Outlook.folder
+ 
+ 
+ Set myNamespace = Application.GetNamespace("MAPI")
+ 
+ Set myRecipient = myNamespace.CreateRecipient("am@publica.ch")
+ 
+ myRecipient.Resolve
+ 
+ If myRecipient.Resolved Then
+ 
+ ' Call ShowContact(myNamespace, myRecipient)
+ Call ShowCalendar(myNamespace, myRecipient)
+ 
+ End If
+ 
+End Sub
+ 
+ 
+ 
+Sub ShowCalendar(myNamespace, myRecipient)
+ 
+ Dim CalendarFolder As Outlook.folder
+ 
+ 
+ 
+ Set CalendarFolder = myNamespace.GetSharedDefaultFolder(myRecipient, olFolderContacts)
+ 
+Dim olookitem As Object
+Dim olookfldr As folder
+Dim destfolder As folder
+Dim olookname As NameSpace
+
+
+Set olookname = Application.GetNamespace("MAPI")
+Set olookfldr = olookname.GetDefaultFolder(olFolderContacts)
+Set destfolder = olookfldr.Folders("Contacts.1.01")
+
+Dim userProps As Outlook.UserProperties
+Dim userProp As Outlook.UserProperty
+
+For Each olookitem In CalendarFolder.items
+    If olookitem.Class = olContact Then
+        Set olookcontactitem = olookitem
+        Set userProps = olookcontactitem.UserProperties
+        Set userProp = userProps.Find("Team")
+        Dim Value As String
+        Value = userProp.Value
+                If Value = "PM" Then
+                 Set mycopieditem = olookitem.Copy
+                  mycopieditem.Move destfolder
+                 
+            End If
+    End If
+Next
+ 
+ 
+End Sub
+ 
