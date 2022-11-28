@@ -1,0 +1,158 @@
+
+
+Sub copyuserdefined() ' Copying all items based on the value in column "Team"
+
+
+
+
+Dim olookitem As Object
+Dim olookfldr As folder
+Dim destfolder As folder
+Dim olookname As NameSpace
+
+
+Set olookname = Application.GetNamespace("MAPI")
+Set olookfldr = olookname.GetDefaultFolder(olFolderContacts)
+Set destfolder = olookfldr.Folders("Contacts.1.01")
+
+Dim userProps As Outlook.UserProperties
+Dim userProp As Outlook.UserProperty
+
+
+
+For Each olookitem In olookfldr.items
+    If olookitem.Class = olContact Then
+        Set olookcontactitem = olookitem
+        Set userProps = olookcontactitem.UserProperties
+        Set userProp = userProps.Find("Team")
+        Dim Value As String
+        Value = userProp.Value
+                If Value = "PRM" Then
+                  Set mycopieditem = olookitem.Copy
+                  mycopieditem.Move destfolder
+                End If
+    End If
+Next
+ 
+ 
+End Sub
+
+
+
+Sub CopyAndDeleteUserDefined() ' Deleting all contacts with Team=PRM from contacts.1.01
+' Importing all items with Team ="PRM" from Contacts to Contact.1.01
+
+
+
+
+Dim olookitem As Object
+Dim olookfldr As folder
+Dim destfolder As folder
+Dim olookname As NameSpace
+
+
+Set olookname = Application.GetNamespace("MAPI")
+Set olookfldr = olookname.GetDefaultFolder(olFolderContacts)
+Set destfolder = olookfldr.Folders("Contacts.1.01")
+
+Dim userProps As Outlook.UserProperties
+Dim userProp As Outlook.UserProperty
+
+
+
+For Each olookitem In destfolder.items
+    If olookitem.Class = olContact Then
+        Set olookcontactitem = olookitem
+        Set userProps = olookcontactitem.UserProperties
+        Set userProp = userProps.Find("Team")
+        Dim Wert As String
+        Wert = userProp.Value
+    If Wert = "PRM" Then
+    olookitem.delete
+    End If
+
+End If
+Next
+
+
+
+
+For Each olookitem In olookfldr.items
+    If olookitem.Class = olContact Then
+        Set olookcontactitem = olookitem
+        Set userProps = olookcontactitem.UserProperties
+        Set userProp = userProps.Find("Team")
+        Dim Value As String
+        Value = userProp.Value
+                If Value = "PRM" Then
+                  Set mycopieditem = olookitem.Copy
+                  mycopieditem.Move destfolder
+                End If
+    End If
+Next
+ 
+ 
+End Sub
+
+
+Sub CopyAndDeleteUserDefined1() ' Deleting all contacts with Team=PRM from contacts.1.01
+' Importing all items with Team ="PRM" from Contacts to Contact.1.01
+
+
+
+
+Dim olookitem As Object
+Dim olookfldr As folder
+Dim destfolder As folder
+Dim olookname As NameSpace
+
+
+Set olookname = Application.GetNamespace("MAPI")
+Set olookfldr = olookname.GetDefaultFolder(olFolderContacts)
+Set destfolder = olookfldr.Folders("Contacts.1.01")
+
+Dim userProps As Outlook.UserProperties
+Dim userProp As Outlook.UserProperty
+
+
+
+For Each olookitem In destfolder.items
+    If olookitem.Class = olContact Then
+        Set olookcontactitem = olookitem
+        Set userProps = olookcontactitem.UserProperties
+        Set userProp = userProps.Find("Team")
+        Dim Wert As String
+        Wert = userProp.Value
+        For i = destfolder.items.Count To 1 Step -1
+            If Wert = "PRM" Then
+            destfolder.items(i).delete
+ '  MsgBox (Wert)
+             End If
+        Next i
+
+End If
+Next
+
+
+
+
+For Each olookitem In olookfldr.items
+    If olookitem.Class = olContact Then
+        Set olookcontactitem = olookitem
+        Set userProps = olookcontactitem.UserProperties
+        Set userProp = userProps.Find("Team")
+        Dim Value As String
+        Value = userProp.Value
+                If Value = "PRM" Then
+                  Set mycopieditem = olookitem.Copy
+                  mycopieditem.Move destfolder
+                End If
+    End If
+Next
+ 
+ 
+End Sub
+
+
+
+
